@@ -35,7 +35,7 @@ int fix(int x)
         int work=0;
         for(int i=0;i<n;++i) for(int j=0;j<n;++j) r90[n-(j+1)][i]=fl[i][j]; //r90+fl
         for(int i=0;i<n;++i) for(int j=0;j<n;++j) if(r90[i][j]!=b[i][j]) work=1;
-        return work;
+        if(work==0) return work;
         work=0;
         /* for(int i=0;i<n;++i) for(int j=0;j<n;++j) r180[n-(j+1)][i]=fl[i][j]; //r180+fl
         for(int i=0;i<n;++i)  for(int j=0;j<n;++j) if(r180[i][j]!=b[i][j]) work=1;
@@ -43,7 +43,7 @@ int fix(int x)
         work=0;*/ 
         // ^ is equal to doing nothing ^
         for(int i=0;i<n;++i) for(int j=0;j<n;++j) r270[n-(j+1)][i]=fl[i][j]; //r270+fl
-        for(int i=0;i<n;++i) for(int j=0;j<n;++j) if(r270[i][j]!=b[i][j]) work=0;
+        for(int i=0;i<n;++i) for(int j=0;j<n;++j) if(r270[i][j]!=b[i][j]) work=1;
         return work;
     }
     if(x==6)
@@ -60,5 +60,6 @@ int main()
     for(i=0;i<n;++i) for(int j=0;j<n;++j) cin >> a[i][j];
     for(i=0;i<n;++i) for(int j=0;j<n;++j) cin >> b[i][j];
     for(i=1;i<=7;++i) if(fix(i)==0){cout << i; return 0;}
-    if(i==7) return 1;
+    cout << 7;
+    return 0;
 }
