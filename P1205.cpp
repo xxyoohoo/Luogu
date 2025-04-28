@@ -2,64 +2,58 @@
 using namespace std;
 char a[11][11],b[11][11],r90[11][11],r180[11][11],r270[11][11],fl[11][11];
 int n;
-int fix(int x)
+int rot90(char (&aa)[11][11], char (&bb)[11][11])
 {
-    if(x==1) //R90
-    {
-        for(int i=0;i<n;++i) for(int j=0;j<n;++j) r90[n-(j+1)][i]=a[i][j];
-        for(int i=0;i<n;++i) for(int j=0;j<n;++j) if(r90[i][j]!=b[i][j])return 1;
-        for(int i=0;i<n;++i) for(int j=0;j<n;++j) cout << r90[i][j] << " ";
-        cout << endl;
-        return 0;
-    }
-    if(x==2) //R180 (R90*2)
-    {
-        for(int i=0;i<n;++i) for(int j=0;j<n;++j) r180[n-(j+1)][i]=r90[i][j];
-        for(int i=0;i<n;++i) for(int j=0;j<n;++j) if(r180[i][j]!=b[i][j])return 1;
-        return 0;
-    }
-    if(x==3) //R270 (R90*3)
-    {
-        for(int i=0;i<n;++i) for(int j=0;j<n;++j) r270[n-(j+1)][i]=r180[i][j];
-        for(int i=0;i<n;++i) for(int j=0;j<n;++j)  if(r270[i][j]!=b[i][j])return 1;
-        return 0;
-    }
-    if(x==4) //ry
-    {
-        for(int i=0;i<n;++i) for(int j=0;j<n;++j) fl[i][n-j-1]=a[i][j];
-        for(int i=0;i<n;++i) for(int j=0;j<n;++j) if(fl[i][j]!=b[i][j])return 1;
-        return 0;
-    }
-    if(x==5)
-    {
-        int work=0;
-        for(int i=0;i<n;++i) for(int j=0;j<n;++j) r90[n-(j+1)][i]=fl[i][j]; //r90+fl
-        for(int i=0;i<n;++i) for(int j=0;j<n;++j) if(r90[i][j]!=b[i][j]) work=1;
-        if(work==0) return work;
-        work=0;
-        /* for(int i=0;i<n;++i) for(int j=0;j<n;++j) r180[n-(j+1)][i]=fl[i][j]; //r180+fl
-        for(int i=0;i<n;++i)  for(int j=0;j<n;++j) if(r180[i][j]!=b[i][j]) work=1;
-        return work;
-        work=0;*/ 
-        // ^ is equal to doing nothing ^
-        for(int i=0;i<n;++i) for(int j=0;j<n;++j) r270[n-(j+1)][i]=fl[i][j]; //r270+fl
-        for(int i=0;i<n;++i) for(int j=0;j<n;++j) if(r270[i][j]!=b[i][j]) work=1;
-        return work;
-    }
-    if(x==6)
-    {
-        for(int i=0;i<n;++i) for(int j=0;j<n;++j) if(a[i][j]!=b[i][j]) return 1;
-        return 0;
+    for(int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            bb[n-(j+1)][i] = aa[i][j];
+        }
     }
     return 1;
+}
+int flip(char (&aa)[11][11], char (&bb)[11][11])
+{
+    for(int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            bb[i][n-j-1]=aa[i][j];
+        }
+    }
+    return 1;
+}
+bool same(char (&aa)[11][11], char (&bb)[11][11])
+{
+    for(int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            if (aa[i][j]!=bb[i][j]) return false;
+        }
+    }
+    return true;
+}
+
+void printM(char (&aa)[11][11])
+{
+    for(int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            cout << aa[i][j];
+        }
+        cout << endl;
+    }
 }
 int main()
 {
     cin >> n;
-    int i;
+    int i,yes=0;
     for(i=0;i<n;++i) for(int j=0;j<n;++j) cin >> a[i][j];
     for(i=0;i<n;++i) for(int j=0;j<n;++j) cin >> b[i][j];
-    for(i=1;i<=7;++i) if(fix(i)==0){cout << i; return 0;}
+    printM(a);
+    if (rot90(a,r90) && same(r90,b)) { cout << 1 << endl; return 0; }
+    if (rot90(r90,r180) && same(r180,b)) { cout << 2 << endl; return 0; }
+    if (rot90(r180, r270) && same(r270,b)) { cout << 3 << endl; return 0; }
+    if (flip(a,fl) && same(fl,b)) {cout << 4 << endl; return 0;}
+    if (rot90(fl,r90) && same(r90,b)) {cout << 5 << endl; return 0;}
+    if (rot90(r90,r180) && same(r180,b)) { cout << 5 << endl; return 0; }
+    if (rot90(r180, r270) && same(r270,b)) { cout << 5 << endl; return 0; }
+    if (same(a,b)) {cout << 6 << endl; return 0;}
     cout << 7;
     return 0;
 }
