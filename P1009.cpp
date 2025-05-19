@@ -16,7 +16,6 @@ string mlt(string a, string b)
         }
     }
     while(ans.size()>1&&ans.back()==0) ans.pop_back();
-    string s;
     for(int i=ans.size()-1;i>=0;--i) s+=(ans[i]+'0');
     return s;
 }
