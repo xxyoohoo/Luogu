@@ -1,4 +1,5 @@
 //https://www.luogu.com.cn/record/217747404
+//https://vjudge.net/solution/60756908/B2UP5XMyYXgXY31q8B1f
 #include<bits/stdc++.h>
 using namespace std;
 int main()
